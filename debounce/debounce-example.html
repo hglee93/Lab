@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <script>
+
+            var count = 0;
+
+            function debounce(func, timeout = 300){
+                let timer;
+                return (...args) => {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+                };
+            }
+
+            function saveInput() {
+                var inputText = document.getElementById("input-txt");
+                var outputText = document.getElementById("output-txt");
+
+                outputText.value = inputText.value;
+
+                count++;
+                var countSpan = document.getElementById("count-span");
+                countSpan.innerHTML = count;
+            }
+
+            function noDebounce() {
+                var inputText = document.getElementById("input-txt");
+                var outputText = document.getElementById("output-txt");
+
+                outputText.value = inputText.value;
+
+                count++;
+                var countSpan = document.getElementById("count-span");
+                countSpan.innerHTML = count;
+            }
+
+            function clearCount() {
+                count = 0;
+                var countSpan = document.getElementById("count-span");
+                countSpan.innerHTML = count;
+
+                var inputTxt = document.getElementById("input-txt");
+                inputTxt.value = "";
+            }
+
+            const processChange = debounce(() => saveInput());
+        </script>
+    </head>
+    <body>
+        INPUT : <input type="text" id="input-txt" onkeyup="processChange()" onfocusout="clearCount()"><br><br>
+        OUTPUT : <input type="text" id="output-txt"><br><br>
+        COUNT : <span id="count-span"></span>
+    </body>
+</html>

@@ -29,4 +29,15 @@ app.use(session({
  saveUninitialized: true
 }));
 
+
+// Passport 설정
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+
+app.post('/login_process',
+    passport.authenticate('local', { 
+        successRedirect: '/',
+        failureRedirect: '/login' 
+    }));
+
 var router = require('./router/main')(app, fs);

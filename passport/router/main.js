@@ -17,6 +17,7 @@ module.exports = function(app, fs)
         res.render('login');
     });
 
+    /*
     app.post('/login_process', function(req, res){
         var sess;
         sess = req.session;
@@ -51,7 +52,7 @@ module.exports = function(app, fs)
                 res.json(result);
             }
         });
-    });
+    });*/
 
     // Logout
     app.get('/logout', function(req, res){

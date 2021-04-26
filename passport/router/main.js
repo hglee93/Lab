@@ -7,8 +7,8 @@ module.exports = function(app, fs)
         res.render('index', {
              title: "MY HOMEPAGE",
              length: 5,
-             name: sess.name,
-             username: sess.username
+             //name: sess.name,
+             //username: sess.username
         })
     });
 

@@ -23,21 +23,64 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // express-session 설정
-app.use(session({
+/*app.use(session({
  secret: '@#@$MYSIGN#@$#$',
  resave: false,
  saveUninitialized: true
-}));
-
+}));*/
 
 // Passport 설정
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport'),
+ LocalStrategy = require('passport-local').Strategy;
+
+// passport 설치
+app.use(passport.initialize());
+// passport-session 사용
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+    //done(null, user.id);
+    done(null, user.name);
+});
+
+passport.deserializeUser(function(id, done) {
+    /*User.findById(id, function(err, user) {
+        done(err, user);
+    });*/
+});
 
 app.post('/login_process',
     passport.authenticate('local', { 
         successRedirect: '/',
         failureRedirect: '/login' 
     }));
+
+passport.use(new LocalStrategy({
+        usernameField: 'id',
+        passwordField: 'pw'
+    },
+    function(username, password, done) {
+
+        console.log('LocalStrategy', username, password, __dirname);
+
+        var data = fs.readFileSync(__dirname + "/data/user.json", "utf8");
+        var users = JSON.parse(data);
+
+        if(!users[username]){
+            // USERNAME NOT FOUND
+            return done(null, false, { 
+                message: 'Incorrect username.' 
+            });
+        }
+
+        if(users[username]["password"] == password){
+            done(null, users[username]);
+        } else{
+            return done(null, false, { 
+                message: 'Incorrect password.' 
+            });
+        }
+    }
+));
 
 var router = require('./router/main')(app, fs);

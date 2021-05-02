@@ -3,8 +3,8 @@ let config = {
     secret: 'secret',
     redisUrl: 'redis://localhost',
     routes: {
-        login: '/login',
-        logout: '/logout',
+        login: '/auth/login',
+        logout: '/auth/logout',
         stock: '/stock',
         googleAuth: '/auth/google',
         googleAuthCallback: '/auth/google/callback',

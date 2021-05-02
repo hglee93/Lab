@@ -5,7 +5,7 @@ const config = require('../config');
 const social_login_config = require('../config/social-login-config.json');
 
 passport.serializeUser(function (user, done) {
-    done(null, user);
+    done(null, user.id);
 })
 
 passport.deserializeUser(function (user, done) {

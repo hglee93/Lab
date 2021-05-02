@@ -21,13 +21,16 @@ app.set('view options', {defaultLayout: 'layout'})
 app.use(log.logger);
 app.use(partials());
 app.use(express.static(__dirname + '/static'));
+
 app.use(cookieParser(config.secret));
 app.use(session({
         secret: config.secret,
         saveUninitialized: true,
         resave: true,
-        /*store: new RedisStore(
-            {url: config.redisUrl})*/
+        store: new RedisStore({
+            url: config.redisUrl,
+            port: 6379
+        })
     })
 );
 
@@ -41,14 +44,14 @@ app.use(flash());
 app.use(util.authenticated)
 app.use(util.templateRoutes);
 
+var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
+var stockRouter = require('./routes/stock');
 
 // Routing
-app.get('/', routes.index);
-app.get(config.routes.login, routes.login);
-app.get('/account/login', routes.login);
-app.post(config.routes.login, routes.loginProcess);
-app.get(config.routes.logout, routes.logOut);
-app.get('/stock', [util.requireAuthentication], routes.stock);
+app.use('/', indexRouter);
+app.use('/auth', authRouter);
+app.use('/stock', stockRouter);
 
 app.get('/error', function(req, res, next) {
     console.log(res);
@@ -63,4 +66,3 @@ app.use(errorHandlers.notFound);
 app.listen(config.PORT, function() {
     console.log("Hearing Now ! :)");
 })
-

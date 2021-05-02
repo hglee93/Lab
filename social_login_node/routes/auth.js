@@ -7,7 +7,10 @@ router.get('/logout', logOut);
 
 function login (request, response) {
     console.log("login");
-    response.render('login', {title: 'Login', message: request.flash('error')});
+    response.render('login', {
+        title: 'Login', 
+        message: request.flash('error')
+    });
 }
 
 function loginProcess (request, response) {

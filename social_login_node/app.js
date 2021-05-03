@@ -1,5 +1,4 @@
-passport = require('./passport');
-
+const stock_passport = require('./passport');
 const express = require('express');
 const app = express();
 const routes = require('./routes');
@@ -34,8 +33,9 @@ app.use(session({
     })
 );
 
-app.use(passport.passport.initialize());
-app.use(passport.passport.session());
+// passport 설정
+app.use(stock_passport.initialize());
+app.use(stock_passport.session());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -57,8 +57,6 @@ app.get('/error', function(req, res, next) {
     console.log(res);
     next(new Error('Error !!!'));
 })
-
-passport.routes(app);
 
 app.use(errorHandlers.error);
 app.use(errorHandlers.notFound);

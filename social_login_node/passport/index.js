@@ -31,26 +31,45 @@ passport.use(new kakao({
     })
 );
 
-var routes = function routes(app){
-    
-    app.get(config.routes.googleAuth, passport.authenticate('google',{ 
+function google_authentication() {
+    return passport.authenticate('google',{ 
         scope: ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
-    }));
+    });
+}
 
-    app.get(config.routes.googleAuthCallback, passport.authenticate('google',{
-            successRedirect: config.routes.stock, 
-            failureRedirect: config.routes.login, 
-            failureFlash: true
-        }));
-
-    app.get(config.routes.kakaoAuth, passport.authenticate('kakao'));
-
-    app.get(config.routes.kakaoAuthCallback, passport.authenticate('kakao',{
+function google_authentication_callback() {
+    return passport.authenticate('google',{
         successRedirect: config.routes.stock, 
         failureRedirect: config.routes.login, 
         failureFlash: true
-    }));
-};
+    });
+}
 
-exports.passport = passport;
-exports.routes = routes;
+function kakao_authentication() {
+    return passport.authenticate('google',{ 
+        scope: ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
+    });
+}
+
+function kakao_authentication_callback() {
+    return passport.authenticate('google',{
+        successRedirect: config.routes.stock, 
+        failureRedirect: config.routes.login, 
+        failureFlash: true
+    });
+}
+
+function initialize() {
+    return passport.initialize();
+}
+
+function session() {
+    return passport.session();
+}
+
+module.exports.initialize = initialize;
+module.exports.session = session;
+module.exports.google_authentication = google_authentication;
+module.exports.google_authentication_callback = google_authentication_callback;
+module.exports.kakao_authentication = kakao_authentication;
+module.exports.kakao_authentication_callback = kakao_authentication_callback;

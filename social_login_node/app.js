@@ -1,7 +1,6 @@
 const stock_passport = require('./passport');
 const express = require('express');
 const app = express();
-const routes = require('./routes');
 const errorHandlers = require('./middleware/errorhandlers');
 const log = require('./middleware/log');
 const cookieParser = require('cookie-parser');
@@ -12,12 +11,16 @@ const util = require('./middleware/utilities')
 const config = require('./config')
 const flash = require('connect-flash')
 const partials = require('express-partials');
+var cors = require('cors');
+
+// CORS 설정
+app.use(cors());
 
 // View 엔진 설정
-app.set('view engine', 'ejs');
-app.set('view options', {defaultLayout: 'layout'})
+// app.set('view engine', 'ejs');
+// app.set('view options', {defaultLayout: 'layout'})
 
-app.use(log.logger);
+//app.use(log.logger);
 app.use(partials());
 app.use(express.static(__dirname + '/static'));
 

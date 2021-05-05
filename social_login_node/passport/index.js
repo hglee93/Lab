@@ -38,9 +38,9 @@ function google_authentication() {
 }
 
 function google_authentication_callback() {
-    return passport.authenticate('google',{
-        successRedirect: config.routes.stock, 
-        failureRedirect: config.routes.login, 
+    return passport.authenticate('google', {
+        successRedirect: '/auth/login/success', 
+        failureRedirect: '/auth/login/failure', 
         failureFlash: true
     });
 }
